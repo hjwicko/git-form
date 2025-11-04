@@ -1,0 +1,29 @@
+name: Create GitHub Issue from Form
+
+on:
+  repository_dispatch:
+    types: [create-adr-issue]
+
+jobs:
+  create-issue:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create GitHub Issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const payload = context.payload.client_payload;
+            const issueTitle = payload.title;
+            const issueBody = `
+**ADR Description**:\n${payload.description}
+
+**GitHub ADR PR**:\n${payload.pr}
+
+**Schemas**:\n${payload.schemas}
+            `;
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: issueTitle,
+              body: issueBody
+            });
