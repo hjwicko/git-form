@@ -45,7 +45,8 @@
   </style>
 </head>
 <body>
-  <form method="POST" action="https://your-webhook-endpoint">
+  <form method="POST" action="http://localhost:3000/webhook">
+  <input type="hidden" name="secret" value="formpat" />
     <h2>Submit an Architecture Decision Record</h2>
 
     <label for="title">ADR Title</label>
